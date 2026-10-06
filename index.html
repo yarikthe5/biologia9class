@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="uk" data-theme="">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Вуглеводи та ліпіди — гра-тренажер (§ 6)</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef6f4;--card:#fff;--ink:#14303a;--mut:#58727b;--line:#d3e2df;--pri:#1f7a8c;--carb:#2d7dd2;--lip:#d99207;--ok:#23975a;--okb:#dff4e8;--bad:#d03f3f;--badb:#fbe3e3;--hl:#fff4d6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1c22;--card:#17292f;--ink:#e6f1f0;--mut:#90a9b0;--line:#2b434b;--pri:#4fb6c8;--carb:#6aa8ee;--lip:#f0b43a;--ok:#4cc88b;--okb:#17382a;--bad:#f07575;--badb:#3d1f22;--hl:#3a3216}}
+:root[data-theme="dark"]{--bg:#0e1c22;--card:#17292f;--ink:#e6f1f0;--mut:#90a9b0;--line:#2b434b;--pri:#4fb6c8;--carb:#6aa8ee;--lip:#f0b43a;--ok:#4cc88b;--okb:#17382a;--bad:#f07575;--badb:#3d1f22;--hl:#3a3216}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Nunito,system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:14px 16px 40px}
+.hud{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:8px 0 10px}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-weight:800;font-size:15px}
+.chip{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:3px 12px}
+.chip.hot{border-color:var(--lip);color:var(--lip)}
+.bar{height:12px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--carb),var(--lip));transition:width .5s}
+.cap{font-size:13px;color:var(--mut);margin-top:3px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:20px 20px 22px;margin-top:10px}
+h1{font-size:30px;line-height:1.15;margin:.2em 0 .3em}
+h2{font-size:22px;margin:.1em 0 .5em}
+.tag{display:inline-block;border-radius:99px;padding:2px 12px;font-weight:800;font-size:14px;background:var(--line)}
+ul.pts{padding-left:20px;margin:.4em 0}ul.pts li{margin:.5em 0}
+b{color:var(--pri)}
+.mn{background:var(--hl);border-radius:14px;padding:10px 14px;margin-top:14px;font-weight:700}
+.rev{background:var(--badb);border-radius:14px;padding:10px 14px;margin-bottom:14px}
+.rev p{margin:.3em 0}.rev small{color:var(--bad);font-weight:800}
+.btn{font:inherit;font-weight:800;border:0;border-radius:16px;padding:12px 22px;background:var(--pri);color:#fff;cursor:pointer;margin-top:16px;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.btn:focus-visible,.opt:focus-visible{outline:3px solid var(--lip);outline-offset:2px}
+.dots{display:flex;gap:6px;margin-top:14px}.dots span{flex:1;height:6px;border-radius:9px;background:var(--line)}.dots .on{background:var(--pri)}
+.opt{display:block;width:100%;text-align:left;font:inherit;font-weight:700;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:16px;padding:12px 16px;margin-top:10px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--pri)}
+.opt.ok{background:var(--okb);border-color:var(--ok)}
+.opt.no{background:var(--badb);border-color:var(--bad);animation:sh .35s}
+.opt[disabled]{cursor:default}
+.fb{margin-top:14px;padding:12px 14px;border-radius:14px;font-weight:700}
+.fb.ok{background:var(--okb)}.fb.no{background:var(--badb)}
+.big{font-size:56px;text-align:center;margin:0}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.stats div{background:var(--bg);border-radius:14px;padding:10px;text-align:center;font-weight:800}
+.stats em{display:block;font-style:normal;font-size:26px;color:var(--pri)}
+button.chip{font:inherit;color:inherit;cursor:pointer}
+.tp{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:14px;font-weight:700}.tp span:first-child{width:46%}.tp i{flex:1;height:8px;border-radius:9px;background:var(--line);overflow:hidden}.tp i b{display:block;height:100%;background:var(--ok)}
+.pop{position:fixed;left:0;right:0;top:35%;text-align:center;font-size:40px;pointer-events:none}
+.pop span{display:inline-block;animation:fly 1.6s ease-out forwards}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes fly{from{transform:translateY(0) scale(.5);opacity:1}to{transform:translateY(-220px) scale(1.2);opacity:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hud" id="hud" hidden>
+    <div class="row"><span class="chip" id="lvl"></span><span class="chip" id="rnd"></span><span class="chip" id="cmb"></span><span class="chip" id="xp"></span><button class="chip" id="snd" aria-label="Звук">🔊</button></div>
+    <div class="bar"><i id="bar"></i></div>
+    <div class="cap" id="cap"></div>
+  </div>
+  <main id="m"></main>
+</div>
+<script>
+const CH=[
+{t:'Органічні речовини та полімери',i:'🧬',c:'var(--pri)',p:[
+'Органічні речовини — сполуки <b>Карбону</b> з іншими хімічними елементами; основа біологічних систем.',
+'Атом Карбону утворює <b>4 ковалентні зв’язки</b>; з атомів будується «скелет» молекули (ланцюжки, кільця).',
+'<b>Мономери</b> — низькомолекулярні ланки, з яких синтезуються <b>полімери</b> (в організмах — біополімери).',
+'Білки ← амінокислоти; нуклеїнові кислоти ← нуклеотиди; полісахариди ← <b>моносахариди</b>.'],
+m:'моно = один, полі = багато, мер = частина'},
+{t:'Будова вуглеводів',i:'🍬',c:'var(--carb)',p:[
+'Формула <b>(CH₂O)ₙ</b>, де n ≥ 3. У тварин ≈1 % сухої маси (печінка, м’язи — до 5 %), у рослин — <b>60–90 %</b>.',
+'<b>Моносахариди</b> (3–10 атомів C): пентози (5 C) — <b>рибоза, дезоксирибоза</b>; гексози (6 C) — <b>глюкоза, фруктоза</b>. Солодкі, розчинні у воді.',
+'<b>Дисахариди</b> (C₁₂H₂₂O₁₁): мальтоза — солодовий, цукроза — буряковий/тростинний, <b>лактоза — молочний</b>, трегалоза — грибний цукор. Солодкі, розчинні.',
+'<b>Полісахариди</b>: крохмаль, целюлоза, глікоген, пектин, хітин. Майже <b>не розчиняються</b> у воді й <b>не солодкі</b>.',
+'Складні вуглеводи: глюкопротеїни (з білками), гліколіпіди (з ліпідами).'],
+m:'Що більше ланок — то менше солодкість і розчинність'},
+{t:'Функції вуглеводів',i:'⚡',c:'var(--carb)',p:[
+'<b>Енергетична</b>: 1 г вуглеводів → до <b>17,6 кДж</b>; розщеплюються навіть без кисню.',
+'<b>Резервна</b>: <b>крохмаль</b> — у рослин, <b>глікоген</b> — у тварин і грибів.',
+'<b>Будівельна</b>: <b>целюлоза</b> — стінка рослин; <b>хітин</b> — стінка грибів і зовнішній скелет членистоногих; вуглеводи в глікокаліксі тварин.',
+'<b>Захисна</b>: <b>пектини</b> зв’язують токсини й радіонукліди; <b>гепарин</b> (з базофілів) запобігає зсіданню крові.'],
+m:'Глікоген — це «тваринний крохмаль»'},
+{t:'Різноманітність ліпідів',i:'🧈',c:'var(--lip)',p:[
+'Ліпіди — <b>гідрофобні або амфіфільні</b> сполуки, що розчиняються в неполярних розчинниках (хлороформ, бензол).',
+'<b>Жири</b> = триатомний спирт <b>гліцерол</b> + <b>3 залишки жирних кислот</b>.',
+'<b>Воски</b> — захист: сальні залози ссавців, куприкова залоза водоплавних птахів (водовідштовхування), шар на листках і плодах, кутикула членистоногих; бджоли будують стільники.',
+'<b>Складні ліпіди</b>: ліпопротеїни (+білки), гліколіпіди (+вуглеводи), фосфоліпіди (+ортофосфатна кислота).',
+'<b>Стероїди</b>: статеві гормони (естрогени, андрогени), кортикостероїди, <b>холестерол</b> — попередник статевих гормонів і вітаміну D.'],
+m:'Гліцерол має 3 «місця» — для 3 жирних кислот'},
+{t:'Функції ліпідів',i:'🐪',c:'var(--lip)',p:[
+'<b>Енергетична</b>: 1 г жирів → <b>38,9 кДж</b> (удвічі більше, ніж у вуглеводів).',
+'<b>Будівельна</b>: <b>фосфоліпіди</b> — основа клітинних мембран (гідрофільна головка + гідрофобні хвости).',
+'<b>Резервна</b>: жири — запас і джерело <b>метаболічної води</b> (1 г жиру → ≈1,1 г води; верблюд).',
+'<b>Захисна / теплоізоляція</b>: низька теплопровідність жиру (кити, тюлені, пінгвіни); захист органів від ударів.',
+'<b>Регуляторна</b>: стероїдні гормони та вітаміни групи D.'],
+m:'Верблюд: жир = запас води. Кит: жир = «шуба»'}];
+
+// [розділ, питання, правильна, [неправильні], пояснення]
+const Q=[
+[0,'Органічні речовини — це сполуки …','Карбону з іншими хімічними елементами',['Гідрогену з Оксигеном','Нітрогену з металами','Фосфору з Сульфуром'],'Основа органічних речовин — Карбон.'],
+[0,'Скільки ковалентних зв’язків може утворювати атом Карбону?','Чотири',['Два','Три','Шість'],'Кожен атом Карбону утворює 4 ковалентні зв’язки.'],
+[0,'Мономери — це …','низькомолекулярні ланки для синтезу полімерів',['будь-які розчинні у воді речовини','високомолекулярні біополімери','неорганічні солі'],'З мономерів, як із цеглинок, будуються полімери.'],
+[0,'Мономерами полісахаридів є залишки …','моносахаридів',['амінокислот','нуклеотидів','жирних кислот'],'Білки — амінокислоти, нуклеїнові кислоти — нуклеотиди.'],
+[1,'Співвідношення C, H, O у вуглеводах здебільшого відповідає формулі …','(CH₂O)ₙ, де n ≥ 3',['(CH₄O)ₙ, де n ≥ 1','C₂H₂Oₙ','(CHO₂)ₙ, де n ≥ 2'],'Формула вуглеводів — (CH₂O)ₙ, n дорівнює трьом і більше.'],
+[1,'Де вміст вуглеводів у клітинах найбільший?','У рослинних (до 60–90 % сухої маси)',['У тваринних (до 60–90 %)','У клітинах печінки (до 50 %)','У грибних (близько 1 %)'],'У тварин ≈1 % (печінка, м’язи — до 5 %), у рослин — 60–90 %.'],
+[1,'Пентозами є …','рибоза і дезоксирибоза',['глюкоза і фруктоза','цукроза і лактоза','крохмаль і целюлоза'],'Пентози мають 5 атомів Карбону; глюкоза і фруктоза — гексози (6).'],
+[1,'«Молочний цукор» — це …','лактоза',['цукроза','мальтоза','трегалоза'],'Цукроза — буряковий/тростинний, мальтоза — солодовий, трегалоза — грибний.'],
+[1,'Яку властивість мають полісахариди?','Майже не розчиняються у воді й не солодкі',['Добре розчиняються й солодкі','Солодкі, але не розчиняються','Розчиняються лише в бензолі'],'Солодкі й розчинні — моно- та дисахариди.'],
+[2,'Скільки енергії виділяється при окисненні 1 г вуглеводів?','до 17,6 кДж',['до 38,9 кДж','до 1,1 кДж','до 76 кДж'],'38,9 кДж — це для жирів.'],
+[2,'Запасний полісахарид тварин і грибів — це …','глікоген',['крохмаль','целюлоза','хітин'],'Крохмаль запасається в клітинах рослин.'],
+[2,'Хітин входить до складу …','зовнішнього скелета членистоногих і клітинної стінки грибів',['клітинної стінки рослин','клітинних мембран тварин','оболонки вірусів'],'Клітинна стінка рослин — це целюлоза.'],
+[2,'Яка функція вуглеводів: пектини зв’язують токсини та радіонукліди?','Захисна',['Резервна','Енергетична','Регуляторна'],'Гепарин (базофіли) теж захисний: запобігає зсіданню крові.'],
+[3,'Ліпіди — це сполуки, які …','гідрофобні або амфіфільні, розчиняються в неполярних розчинниках',['добре розчиняються у воді','є біополімерами з амінокислот','мають формулу (CH₂O)ₙ'],'Ліпіди переважно не полімерні й не полярні.'],
+[3,'Жир утворений …','гліцеролом і трьома залишками жирних кислот',['гліцеролом і трьома моносахаридами','трьома амінокислотами та гліцеролом','двома залишками жирних кислот і фосфатом'],'Гліцерол — триатомний спирт, тому приєднує 3 кислоти.'],
+[3,'Що надає пір’ю водоплавних птахів водовідштовхувальних властивостей?','Віск куприкової залози',['Холестерол','Глікоген','Хітин'],'Воски виконують переважно захисну функцію.'],
+[3,'Холестерол є попередником у синтезі …','статевих гормонів і вітаміну D',['крохмалю і глікогену','гепарину і пектину','целюлози і хітину'],'Холестерол — стероїд.'],
+[4,'Скільки енергії виділяється при повному розщепленні 1 г жирів?','38,9 кДж',['17,6 кДж','1,1 кДж','3,89 кДж'],'Жири дають удвічі більше енергії, ніж вуглеводи.'],
+[4,'Основа клітинних мембран — …','фосфоліпіди (гідрофільні головки, гідрофобні хвости)',['крохмаль','воски','гепарин'],'Це будівельна (структурна) функція ліпідів.'],
+[4,'Чому верблюди в спеку накопичують жир?','При окисненні жиру утворюється метаболічна вода',['Жир охолоджує тіло в спеку','Жир легший за воду','Жир перетворюється на глікоген'],'З 1 г жиру утворюється майже 1,1 г води.'],
+[4,'Чому підшкірний жир захищає китів і пінгвінів від холоду?','Жир має низьку теплопровідність',['Жир виробляє тепло без кисню','Жир добре проводить тепло','Жир розчиняється у воді'],'Це теплоізоляційна функція.'],
+[4,'Регуляторну функцію ліпідів виконують …','стероїдні гормони та вітаміни групи D',['крохмаль і целюлоза','мальтоза і лактоза','хітин і пектин'],'Вони регулюють обмін речовин, линяння комах тощо.'],
+[1,'Міф чи факт? Глюкоза — це дисахарид.','Міф',['Факт'],'Глюкоза — моносахарид (гексоза, C₆H₁₂O₆).'],
+[1,'Міф чи факт? Рибоза — гексоза.','Міф',['Факт'],'Рибоза має 5 атомів Карбону — це пентоза.'],
+[0,'Міф чи факт? Органічні сполуки можна одержати лише в живих організмах.','Міф',['Факт'],'Нині штучно синтезують багато органічних сполук.'],
+[2,'Міф чи факт? Целюлоза — найпоширеніша органічна речовина на Землі.','Факт',['Міф'],'Близько половини атомів Карбону органічних сполук — у целюлозі.'],
+[2,'Міф чи факт? Вуглеводи можуть розщеплюватись з виділенням енергії без участі кисню.','Факт',['Міф'],'Завдяки цьому анаеробні організми забезпечують себе енергією.'],
+[3,'Міф чи факт? Жири розчиняються у воді краще, ніж у бензолі.','Міф',['Факт'],'Ліпіди гідрофобні й розчиняються в неполярних розчинниках.'],
+[3,'Міф чи факт? Холестерол — це жир, утворений гліцеролом.','Міф',['Факт'],'Холестерол — стероїд, а жир = гліцерол + 3 жирні кислоти.'],
+[4,'Міф чи факт? Під час окиснення жирів утворюється метаболічна вода.','Факт',['Міф'],'З 1 г жиру — майже 1,1 г води.'],
+[1,'Сортуємо: цукроза — це …','дисахарид',['моносахарид','полісахарид','стероїд'],'Цукроза = глюкоза + фруктоза.'],
+[2,'Сортуємо: крохмаль — це …','полісахарид',['дисахарид','моносахарид','жир'],'Резервний вуглевод рослин.'],
+[3,'Сортуємо: естрогени та андрогени — це …','стероїди',['воски','фосфоліпіди','полісахариди'],'Статеві гормони мають стероїдну природу.'],
+[3,'Сортуємо: фосфоліпіди — це …','складні ліпіди',['прості вуглеводи','стероїди','мономери білків'],'Ліпіди + ортофосфатна кислота.']
+];
+
+const $=id=>document.getElementById(id), M=$('m');
+const LV=['Молекула','Органела','Клітина','Тканина','Орган','Організм'];
+const sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let S,SND=true,AC;const PR=['Чудово!','Так тримати!','Точно в ціль!','Супер!','Ось це пам’ять!'];
+function beep(f){if(!SND)return;try{AC=AC||new AudioContext();const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;g.gain.value=.08;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.15)}catch(e){}}
+
+function hud(){
+  $('hud').hidden=false;
+  const L=Math.min(5,Math.floor(S.xp/60));
+  $('lvl').textContent='🔬 '+LV[L];
+  $('rnd').textContent=S.boss?'👹 Бос '+'❤️'.repeat(Math.max(S.lives,0)):'Коло '+S.round;
+  $('cmb').textContent='🔥 ×'+S.combo; $('cmb').classList.toggle('hot',S.combo>=3);
+  $('xp').textContent='⭐ '+S.xp;
+  $('bar').style.width=(S.done.size/Q.length*100)+'%';
+  $('cap').textContent='Засвоєно питань: '+S.done.size+' з '+Q.length;
+}
+function start(){
+  S={pool:Q.map((_,i)=>i),round:1,xp:0,combo:0,done:new Set(),first:0,fails:0,asked:new Set(),tp:{},boss:false,bossTried:false,bossWon:false,lives:3};
+  hud(); read(CH.map((_,i)=>i),0,[]);
+}
+function intro(){
+  M.innerHTML=`<div class="card"><p class="big">🧬</p><h1>Вуглеводи та ліпіди</h1>
+  <p>Тренажер до <b>§ 6</b>. Як це працює:</p>
+  <ul class="pts"><li><b>Читай</b> 5 коротких карток із параграфа.</li>
+  <li><b>Тестуйся</b>: питання, «міф чи факт» і сортування; бали, серія 🔥 та бонус ⚡ за швидкість.</li>
+  <li>Усі <b>помилки повертаються</b>: ти перечитуєш лише потрібні картки й проходиш тест знову.</li>
+  <li>Наприкінці чекає <b>фінальний бос</b> 👹: 10 випадкових питань і 3 життя ❤️.</li><li>Гра закінчується, коли <b>всі відповіді правильні</b>.</li></ul>
+  <button class="btn" id="go">Почати</button></div>`;
+  $('go').onclick=start;
+}
+function read(chs,k,wr){
+  const c=CH[chs[k]], rev=wr.filter(q=>Q[q][0]===chs[k]);
+  let h='<div class="card" style="border-top:8px solid '+c.c+'">';
+  h+='<span class="tag">'+(S.round>1?'Повторення':'Читання')+' · '+(k+1)+'/'+chs.length+'</span><h2>'+c.i+' '+c.t+'</h2>';
+  if(rev.length)h+='<div class="rev"><small>Тут ти помилився — зверни увагу:</small>'+rev.map(q=>'<p>❓ '+Q[q][1]+'<br>✅ <b>'+Q[q][2]+'</b></p>').join('')+'</div>';
+  h+='<ul class="pts">'+c.p.map(x=>'<li>'+x+'</li>').join('')+'</ul><div class="mn">💡 '+c.m+'</div>';
+  h+='<div class="dots">'+chs.map((_,i)=>'<span class="'+(i<=k?'on':'')+'"></span>').join('')+'</div>';
+  h+='<button class="btn" id="nx">'+(k<chs.length-1?'Далі':'До тесту')+'</button>';
+  if(k>0)h+=' <button class="btn ghost" id="bk">Назад</button>';
+  M.innerHTML=h+'</div>'; scrollTo(0,0);
+  $('nx').onclick=()=>k<chs.length-1?read(chs,k+1,wr):quiz();
+  if(k>0)$('bk').onclick=()=>read(chs,k-1,wr);
+}
+function quiz(){S.queue=S.boss?sh(Q.map((_,i)=>i)).slice(0,10):sh(S.pool);S.qi=0;S.wrong=[];S.ok=0;S.tp={};ask()}
+function ask(){
+  hud();
+  const id=S.queue[S.qi],q=Q[id];
+  const opts=q[3].length==1?[[q[2],1],[q[3][0],0]].sort((a,b)=>a[0]<b[0]?-1:1):sh([[q[2],1],...q[3].map(x=>[x,0])]);S.t0=Date.now();
+  M.innerHTML='<div class="card"><span class="tag">Питання '+(S.qi+1)+' з '+S.queue.length+'</span><h2 style="margin-top:.6em">'+q[1]+'</h2><div id="o"></div><div id="f"></div></div>';
+  opts.forEach(([t,r])=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=()=>pick(b,r,id);$('o').appendChild(b)});
+  scrollTo(0,0);
+}
+function pop(e){const d=document.createElement('div');d.className='pop';d.innerHTML=e.map(x=>'<span>'+x+'</span>').join('');document.body.appendChild(d);setTimeout(()=>d.remove(),1700)}
+function pick(b,r,id){
+  const q=Q[id],all=[...document.querySelectorAll('.opt')];
+  all.forEach(x=>{x.disabled=true;if(x.textContent===q[2])x.classList.add('ok')});
+  const f=$('f');
+  if(r){
+    const fast=Date.now()-S.t0<8000,pts=10+Math.min(S.combo+1,5)*2+(fast?5:0);S.ok++;S.combo++;S.xp+=pts;S.done.add(id);beep(660);
+    if(!S.asked.has(id))S.first++;
+    f.innerHTML='<div class="fb ok">✅ '+PR[Math.floor(Math.random()*PR.length)]+' +'+pts+(fast?' ⚡':'')+'. '+q[4]+'</div>';
+    if(S.combo>=3)pop(['🔥']);
+  }else{
+    b.classList.add('no');S.combo=0;S.fails++;S.wrong.push(id);S.done.delete(id);beep(180);if(S.boss)S.lives--;
+    f.innerHTML='<div class="fb no">❌ Правильна відповідь: <b>'+q[2]+'</b>. '+q[4]+' Це питання повернеться після повторення.</div>';
+  }
+  const T=S.tp[q[0]]||(S.tp[q[0]]={a:0,c:0});T.a++;if(r)T.c++;S.asked.add(id);hud();
+  const n=document.createElement('button');n.className='btn';n.textContent=S.qi<S.queue.length-1?'Далі':'Підсумок кола';
+  n.onclick=()=>{S.qi++;S.qi<S.queue.length&&!(S.boss&&S.lives<1)?ask():endRound()};f.appendChild(n);n.focus();
+}
+function tops(){return Object.keys(S.tp).map(k=>{const t=S.tp[k],p=Math.round(t.c/t.a*100);return '<div class="tp"><span>'+CH[k].i+' '+CH[k].t+'</span><i><b style="width:'+p+'%"></b></i><span>'+p+'%</span></div>'}).join('')}
+function endRound(){
+  hud();
+  if(!S.wrong.length){if(S.boss)S.bossWon=true;return S.boss||S.bossTried?win():bossIntro()}
+  const chs=[...new Set(S.wrong.map(i=>Q[i][0]))].sort(),was=S.boss;
+  if(was){S.bossTried=true;S.boss=false}
+  M.innerHTML='<div class="card"><p class="big">'+(was?'👹':'📖')+'</p><h2 style="text-align:center">'+(was?'Бос':'Коло '+S.round)+': '+S.ok+' з '+S.qi+' правильно</h2>'+tops()+'<p style="text-align:center">Помилок: <b>'+S.wrong.length+'</b>. Перечитай відповідні картки ('+chs.length+') — і ці питання повернуться разом із кількома для освіження.</p><div style="text-align:center"><button class="btn" id="rr">Перечитати</button></div></div>';
+  $('rr').onclick=()=>{const ex=sh([...S.done]).slice(0,3);S.pool=[...S.wrong,...ex];S.round++;hud();read(chs,0,S.wrong)};
+}
+function bossIntro(){
+  M.innerHTML='<div class="card"><p class="big">👹</p><h1 style="text-align:center">Фінальний бос</h1><p style="text-align:center">Усе засвоєно! Тепер перевірка пам’яті: <b>10 випадкових питань</b> з усього параграфа й <b>3 життя</b> ❤️❤️❤️. Якщо будуть помилки, вони повернуться на повторення.</p><div style="text-align:center"><button class="btn" id="bs">Битися!</button> <button class="btn ghost" id="sk">Пропустити</button></div></div>';
+  $('bs').onclick=()=>{S.boss=true;S.lives=3;quiz()};$('sk').onclick=win;
+}
+function win(){
+  pop(['🎉','🧬','⭐','🎉','🍬','🧈']);beep(880);
+  M.innerHTML='<div class="card"><p class="big">'+(S.bossWon?'👑':'🏆')+'</p><h1 style="text-align:center">'+(S.bossWon?'Боса переможено!':'Усі відповіді правильні!')+'</h1><div class="stats"><div><em>'+S.xp+'</em>балів</div><div><em>'+S.round+'</em>кіл</div><div><em>'+S.first+'/'+Q.length+'</em>з першої спроби</div><div><em>'+S.fails+'</em>помилок виправлено</div></div><p style="text-align:center;color:var(--mut)">Щоб закріпити, пройди ще раз через день — так знання тримаються довше.</p><div style="text-align:center"><button class="btn" id="ag">Грати знову</button></div></div>';
+  $('ag').onclick=start;
+}
+$('snd').onclick=e=>{SND=!SND;e.target.textContent=SND?'🔊':'🔇'};
+intro();
+</script>
+</body>
+</html>
