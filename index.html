@@ -1,233 +1,190 @@
-<!doctype html>
-<html lang="uk" data-theme="">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Вуглеводи та ліпіди — гра-тренажер (§ 6)</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<!DOCTYPE html><html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Біологія 9 кл. · §9 ДНК · Підготовка</title>
 <style>
-:root{--bg:#eef6f4;--card:#fff;--ink:#14303a;--mut:#58727b;--line:#d3e2df;--pri:#1f7a8c;--carb:#2d7dd2;--lip:#d99207;--ok:#23975a;--okb:#dff4e8;--bad:#d03f3f;--badb:#fbe3e3;--hl:#fff4d6;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1c22;--card:#17292f;--ink:#e6f1f0;--mut:#90a9b0;--line:#2b434b;--pri:#4fb6c8;--carb:#6aa8ee;--lip:#f0b43a;--ok:#4cc88b;--okb:#17382a;--bad:#f07575;--badb:#3d1f22;--hl:#3a3216}}
-:root[data-theme="dark"]{--bg:#0e1c22;--card:#17292f;--ink:#e6f1f0;--mut:#90a9b0;--line:#2b434b;--pri:#4fb6c8;--carb:#6aa8ee;--lip:#f0b43a;--ok:#4cc88b;--okb:#17382a;--bad:#f07575;--badb:#3d1f22;--hl:#3a3216}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Nunito,system-ui,-apple-system,"Segoe UI",sans-serif}
-.wrap{max-width:720px;margin:0 auto;padding:14px 16px 40px}
-.hud{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:8px 0 10px}
-.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-weight:800;font-size:15px}
-.chip{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:3px 12px}
-.chip.hot{border-color:var(--lip);color:var(--lip)}
-.bar{height:12px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:8px}
-.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--carb),var(--lip));transition:width .5s}
-.cap{font-size:13px;color:var(--mut);margin-top:3px}
-.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:20px 20px 22px;margin-top:10px}
-h1{font-size:30px;line-height:1.15;margin:.2em 0 .3em}
-h2{font-size:22px;margin:.1em 0 .5em}
-.tag{display:inline-block;border-radius:99px;padding:2px 12px;font-weight:800;font-size:14px;background:var(--line)}
-ul.pts{padding-left:20px;margin:.4em 0}ul.pts li{margin:.5em 0}
-b{color:var(--pri)}
-.mn{background:var(--hl);border-radius:14px;padding:10px 14px;margin-top:14px;font-weight:700}
-.rev{background:var(--badb);border-radius:14px;padding:10px 14px;margin-bottom:14px}
-.rev p{margin:.3em 0}.rev small{color:var(--bad);font-weight:800}
-.btn{font:inherit;font-weight:800;border:0;border-radius:16px;padding:12px 22px;background:var(--pri);color:#fff;cursor:pointer;margin-top:16px;box-shadow:0 4px 0 rgba(0,0,0,.25)}
-.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
-.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line);box-shadow:none}
-.btn:focus-visible,.opt:focus-visible{outline:3px solid var(--lip);outline-offset:2px}
-.dots{display:flex;gap:6px;margin-top:14px}.dots span{flex:1;height:6px;border-radius:9px;background:var(--line)}.dots .on{background:var(--pri)}
-.opt{display:block;width:100%;text-align:left;font:inherit;font-weight:700;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:16px;padding:12px 16px;margin-top:10px;cursor:pointer}
-.opt:hover:not([disabled]){border-color:var(--pri)}
-.opt.ok{background:var(--okb);border-color:var(--ok)}
-.opt.no{background:var(--badb);border-color:var(--bad);animation:sh .35s}
-.opt[disabled]{cursor:default}
-.fb{margin-top:14px;padding:12px 14px;border-radius:14px;font-weight:700}
-.fb.ok{background:var(--okb)}.fb.no{background:var(--badb)}
-.big{font-size:56px;text-align:center;margin:0}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
-.stats div{background:var(--bg);border-radius:14px;padding:10px;text-align:center;font-weight:800}
-.stats em{display:block;font-style:normal;font-size:26px;color:var(--pri)}
-button.chip{font:inherit;color:inherit;cursor:pointer}
-.tp{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:14px;font-weight:700}.tp span:first-child{width:46%}.tp i{flex:1;height:8px;border-radius:9px;background:var(--line);overflow:hidden}.tp i b{display:block;height:100%;background:var(--ok)}
-.pop{position:fixed;left:0;right:0;top:35%;text-align:center;font-size:40px;pointer-events:none}
-.pop span{display:inline-block;animation:fly 1.6s ease-out forwards}
-@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-@keyframes fly{from{transform:translateY(0) scale(.5);opacity:1}to{transform:translateY(-220px) scale(1.2);opacity:0}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div class="hud" id="hud" hidden>
-    <div class="row"><span class="chip" id="lvl"></span><span class="chip" id="rnd"></span><span class="chip" id="cmb"></span><span class="chip" id="xp"></span><button class="chip" id="snd" aria-label="Звук">🔊</button></div>
-    <div class="bar"><i id="bar"></i></div>
-    <div class="cap" id="cap"></div>
-  </div>
-  <main id="m"></main>
-</div>
+:root{--bg:#f2f6f5;--c:#fff;--t:#1b2428;--m:#64747b;--a:#0f7f8f;--ok:#2f9e44;--no:#e03131;--bd:#d9e3e2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11191c;--c:#1b272b;--t:#ebf2f2;--m:#98aab0;--a:#5cc3d3;--ok:#51cf66;--no:#ff6b6b;--bd:#2d3f45}}
+:root[data-theme="dark"]{--bg:#11191c;--c:#1b272b;--t:#ebf2f2;--m:#98aab0;--a:#5cc3d3;--ok:#51cf66;--no:#ff6b6b;--bd:#2d3f45}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--t);font:17px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#app{max-width:760px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding:12px 16px 24px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:6px 0 10px;z-index:2}
+.bar{height:8px;background:var(--bd);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--a);transition:width .3s}
+.meta{display:flex;justify-content:space-between;font-size:13px;color:var(--m);margin-top:6px}
+.dots{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}.dots b{width:20px;height:8px;border-radius:4px;background:var(--bd)}
+.dots .r{background:var(--a)}.dots .g{background:var(--ok)}.dots .w{background:var(--no)}
+.card{background:var(--c);border:1px solid var(--bd);border-radius:18px;padding:22px;margin:10px 0;flex:1;animation:in .25s}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.tag{color:var(--a);font-weight:700;font-size:14px}h1,h2{margin:4px 0 14px;line-height:1.25}h1{font-size:28px}h2{font-size:22px}
+ul{padding-left:20px;margin:0}li{margin:0 0 11px}b{color:var(--a)}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:15px;font:inherit;font-weight:700;background:var(--a);color:#fff;cursor:pointer;margin-top:10px}
+.btn.s{background:var(--bd);color:var(--t)}
+.btn:focus-visible,.opt:focus-visible{outline:3px solid var(--a);outline-offset:2px}
+.opt{display:block;width:100%;text-align:left;background:var(--bg);color:var(--t);border:2px solid var(--bd);border-radius:12px;padding:13px 15px;margin:9px 0;font:inherit;cursor:pointer}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,var(--c))}.opt.no{border-color:var(--no);background:color-mix(in srgb,var(--no) 15%,var(--c))}
+.fb{padding:12px;border-radius:12px;margin-top:10px;background:var(--bg);border:1px solid var(--bd)}
+.big{font-size:54px;text-align:center}.c{text-align:center}.sm{color:var(--m);font-size:15px}
+.pop{position:fixed;top:38%;z-index:9;font-weight:800;font-size:28px;color:var(--ok);pointer-events:none;animation:up .9s forwards;text-shadow:0 2px 8px #0003;white-space:nowrap}
+@keyframes up{from{opacity:1;transform:translate(-50%,0) scale(.8)}to{opacity:0;transform:translate(-50%,-90px) scale(1.2)}}
+.cf{position:fixed;top:-30px;z-index:9;pointer-events:none;animation:fall 2s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+.shake{animation:sk .35s}@keyframes sk{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.boss{margin:6px 0 2px}.boss i{background:var(--no)}
+.rank{display:inline-block;background:var(--bg);border:1px solid var(--bd);border-radius:20px;padding:4px 12px;font-weight:700;margin:2px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body><div id="app"></div>
 <script>
-const CH=[
-{t:'Органічні речовини та полімери',i:'🧬',c:'var(--pri)',p:[
-'Органічні речовини — сполуки <b>Карбону</b> з іншими хімічними елементами; основа біологічних систем.',
-'Атом Карбону утворює <b>4 ковалентні зв’язки</b>; з атомів будується «скелет» молекули (ланцюжки, кільця).',
-'<b>Мономери</b> — низькомолекулярні ланки, з яких синтезуються <b>полімери</b> (в організмах — біополімери).',
-'Білки ← амінокислоти; нуклеїнові кислоти ← нуклеотиди; полісахариди ← <b>моносахариди</b>.'],
-m:'моно = один, полі = багато, мер = частина'},
-{t:'Будова вуглеводів',i:'🍬',c:'var(--carb)',p:[
-'Формула <b>(CH₂O)ₙ</b>, де n ≥ 3. У тварин ≈1 % сухої маси (печінка, м’язи — до 5 %), у рослин — <b>60–90 %</b>.',
-'<b>Моносахариди</b> (3–10 атомів C): пентози (5 C) — <b>рибоза, дезоксирибоза</b>; гексози (6 C) — <b>глюкоза, фруктоза</b>. Солодкі, розчинні у воді.',
-'<b>Дисахариди</b> (C₁₂H₂₂O₁₁): мальтоза — солодовий, цукроза — буряковий/тростинний, <b>лактоза — молочний</b>, трегалоза — грибний цукор. Солодкі, розчинні.',
-'<b>Полісахариди</b>: крохмаль, целюлоза, глікоген, пектин, хітин. Майже <b>не розчиняються</b> у воді й <b>не солодкі</b>.',
-'Складні вуглеводи: глюкопротеїни (з білками), гліколіпіди (з ліпідами).'],
-m:'Що більше ланок — то менше солодкість і розчинність'},
-{t:'Функції вуглеводів',i:'⚡',c:'var(--carb)',p:[
-'<b>Енергетична</b>: 1 г вуглеводів → до <b>17,6 кДж</b>; розщеплюються навіть без кисню.',
-'<b>Резервна</b>: <b>крохмаль</b> — у рослин, <b>глікоген</b> — у тварин і грибів.',
-'<b>Будівельна</b>: <b>целюлоза</b> — стінка рослин; <b>хітин</b> — стінка грибів і зовнішній скелет членистоногих; вуглеводи в глікокаліксі тварин.',
-'<b>Захисна</b>: <b>пектини</b> зв’язують токсини й радіонукліди; <b>гепарин</b> (з базофілів) запобігає зсіданню крові.'],
-m:'Глікоген — це «тваринний крохмаль»'},
-{t:'Різноманітність ліпідів',i:'🧈',c:'var(--lip)',p:[
-'Ліпіди — <b>гідрофобні або амфіфільні</b> сполуки, що розчиняються в неполярних розчинниках (хлороформ, бензол).',
-'<b>Жири</b> = триатомний спирт <b>гліцерол</b> + <b>3 залишки жирних кислот</b>.',
-'<b>Воски</b> — захист: сальні залози ссавців, куприкова залоза водоплавних птахів (водовідштовхування), шар на листках і плодах, кутикула членистоногих; бджоли будують стільники.',
-'<b>Складні ліпіди</b>: ліпопротеїни (+білки), гліколіпіди (+вуглеводи), фосфоліпіди (+ортофосфатна кислота).',
-'<b>Стероїди</b>: статеві гормони (естрогени, андрогени), кортикостероїди, <b>холестерол</b> — попередник статевих гормонів і вітаміну D.'],
-m:'Гліцерол має 3 «місця» — для 3 жирних кислот'},
-{t:'Функції ліпідів',i:'🐪',c:'var(--lip)',p:[
-'<b>Енергетична</b>: 1 г жирів → <b>38,9 кДж</b> (удвічі більше, ніж у вуглеводів).',
-'<b>Будівельна</b>: <b>фосфоліпіди</b> — основа клітинних мембран (гідрофільна головка + гідрофобні хвости).',
-'<b>Резервна</b>: жири — запас і джерело <b>метаболічної води</b> (1 г жиру → ≈1,1 г води; верблюд).',
-'<b>Захисна / теплоізоляція</b>: низька теплопровідність жиру (кити, тюлені, пінгвіни); захист органів від ударів.',
-'<b>Регуляторна</b>: стероїдні гормони та вітаміни групи D.'],
-m:'Верблюд: жир = запас води. Кит: жир = «шуба»'}];
-
-// [розділ, питання, правильна, [неправильні], пояснення]
-const Q=[
-[0,'Органічні речовини — це сполуки …','Карбону з іншими хімічними елементами',['Гідрогену з Оксигеном','Нітрогену з металами','Фосфору з Сульфуром'],'Основа органічних речовин — Карбон.'],
-[0,'Скільки ковалентних зв’язків може утворювати атом Карбону?','Чотири',['Два','Три','Шість'],'Кожен атом Карбону утворює 4 ковалентні зв’язки.'],
-[0,'Мономери — це …','низькомолекулярні ланки для синтезу полімерів',['будь-які розчинні у воді речовини','високомолекулярні біополімери','неорганічні солі'],'З мономерів, як із цеглинок, будуються полімери.'],
-[0,'Мономерами полісахаридів є залишки …','моносахаридів',['амінокислот','нуклеотидів','жирних кислот'],'Білки — амінокислоти, нуклеїнові кислоти — нуклеотиди.'],
-[1,'Співвідношення C, H, O у вуглеводах здебільшого відповідає формулі …','(CH₂O)ₙ, де n ≥ 3',['(CH₄O)ₙ, де n ≥ 1','C₂H₂Oₙ','(CHO₂)ₙ, де n ≥ 2'],'Формула вуглеводів — (CH₂O)ₙ, n дорівнює трьом і більше.'],
-[1,'Де вміст вуглеводів у клітинах найбільший?','У рослинних (до 60–90 % сухої маси)',['У тваринних (до 60–90 %)','У клітинах печінки (до 50 %)','У грибних (близько 1 %)'],'У тварин ≈1 % (печінка, м’язи — до 5 %), у рослин — 60–90 %.'],
-[1,'Пентозами є …','рибоза і дезоксирибоза',['глюкоза і фруктоза','цукроза і лактоза','крохмаль і целюлоза'],'Пентози мають 5 атомів Карбону; глюкоза і фруктоза — гексози (6).'],
-[1,'«Молочний цукор» — це …','лактоза',['цукроза','мальтоза','трегалоза'],'Цукроза — буряковий/тростинний, мальтоза — солодовий, трегалоза — грибний.'],
-[1,'Яку властивість мають полісахариди?','Майже не розчиняються у воді й не солодкі',['Добре розчиняються й солодкі','Солодкі, але не розчиняються','Розчиняються лише в бензолі'],'Солодкі й розчинні — моно- та дисахариди.'],
-[2,'Скільки енергії виділяється при окисненні 1 г вуглеводів?','до 17,6 кДж',['до 38,9 кДж','до 1,1 кДж','до 76 кДж'],'38,9 кДж — це для жирів.'],
-[2,'Запасний полісахарид тварин і грибів — це …','глікоген',['крохмаль','целюлоза','хітин'],'Крохмаль запасається в клітинах рослин.'],
-[2,'Хітин входить до складу …','зовнішнього скелета членистоногих і клітинної стінки грибів',['клітинної стінки рослин','клітинних мембран тварин','оболонки вірусів'],'Клітинна стінка рослин — це целюлоза.'],
-[2,'Яка функція вуглеводів: пектини зв’язують токсини та радіонукліди?','Захисна',['Резервна','Енергетична','Регуляторна'],'Гепарин (базофіли) теж захисний: запобігає зсіданню крові.'],
-[3,'Ліпіди — це сполуки, які …','гідрофобні або амфіфільні, розчиняються в неполярних розчинниках',['добре розчиняються у воді','є біополімерами з амінокислот','мають формулу (CH₂O)ₙ'],'Ліпіди переважно не полімерні й не полярні.'],
-[3,'Жир утворений …','гліцеролом і трьома залишками жирних кислот',['гліцеролом і трьома моносахаридами','трьома амінокислотами та гліцеролом','двома залишками жирних кислот і фосфатом'],'Гліцерол — триатомний спирт, тому приєднує 3 кислоти.'],
-[3,'Що надає пір’ю водоплавних птахів водовідштовхувальних властивостей?','Віск куприкової залози',['Холестерол','Глікоген','Хітин'],'Воски виконують переважно захисну функцію.'],
-[3,'Холестерол є попередником у синтезі …','статевих гормонів і вітаміну D',['крохмалю і глікогену','гепарину і пектину','целюлози і хітину'],'Холестерол — стероїд.'],
-[4,'Скільки енергії виділяється при повному розщепленні 1 г жирів?','38,9 кДж',['17,6 кДж','1,1 кДж','3,89 кДж'],'Жири дають удвічі більше енергії, ніж вуглеводи.'],
-[4,'Основа клітинних мембран — …','фосфоліпіди (гідрофільні головки, гідрофобні хвости)',['крохмаль','воски','гепарин'],'Це будівельна (структурна) функція ліпідів.'],
-[4,'Чому верблюди в спеку накопичують жир?','При окисненні жиру утворюється метаболічна вода',['Жир охолоджує тіло в спеку','Жир легший за воду','Жир перетворюється на глікоген'],'З 1 г жиру утворюється майже 1,1 г води.'],
-[4,'Чому підшкірний жир захищає китів і пінгвінів від холоду?','Жир має низьку теплопровідність',['Жир виробляє тепло без кисню','Жир добре проводить тепло','Жир розчиняється у воді'],'Це теплоізоляційна функція.'],
-[4,'Регуляторну функцію ліпідів виконують …','стероїдні гормони та вітаміни групи D',['крохмаль і целюлоза','мальтоза і лактоза','хітин і пектин'],'Вони регулюють обмін речовин, линяння комах тощо.'],
-[1,'Міф чи факт? Глюкоза — це дисахарид.','Міф',['Факт'],'Глюкоза — моносахарид (гексоза, C₆H₁₂O₆).'],
-[1,'Міф чи факт? Рибоза — гексоза.','Міф',['Факт'],'Рибоза має 5 атомів Карбону — це пентоза.'],
-[0,'Міф чи факт? Органічні сполуки можна одержати лише в живих організмах.','Міф',['Факт'],'Нині штучно синтезують багато органічних сполук.'],
-[2,'Міф чи факт? Целюлоза — найпоширеніша органічна речовина на Землі.','Факт',['Міф'],'Близько половини атомів Карбону органічних сполук — у целюлозі.'],
-[2,'Міф чи факт? Вуглеводи можуть розщеплюватись з виділенням енергії без участі кисню.','Факт',['Міф'],'Завдяки цьому анаеробні організми забезпечують себе енергією.'],
-[3,'Міф чи факт? Жири розчиняються у воді краще, ніж у бензолі.','Міф',['Факт'],'Ліпіди гідрофобні й розчиняються в неполярних розчинниках.'],
-[3,'Міф чи факт? Холестерол — це жир, утворений гліцеролом.','Міф',['Факт'],'Холестерол — стероїд, а жир = гліцерол + 3 жирні кислоти.'],
-[4,'Міф чи факт? Під час окиснення жирів утворюється метаболічна вода.','Факт',['Міф'],'З 1 г жиру — майже 1,1 г води.'],
-[1,'Сортуємо: цукроза — це …','дисахарид',['моносахарид','полісахарид','стероїд'],'Цукроза = глюкоза + фруктоза.'],
-[2,'Сортуємо: крохмаль — це …','полісахарид',['дисахарид','моносахарид','жир'],'Резервний вуглевод рослин.'],
-[3,'Сортуємо: естрогени та андрогени — це …','стероїди',['воски','фосфоліпіди','полісахариди'],'Статеві гормони мають стероїдну природу.'],
-[3,'Сортуємо: фосфоліпіди — це …','складні ліпіди',['прості вуглеводи','стероїди','мономери білків'],'Ліпіди + ортофосфатна кислота.']
+const S=[
+["§9.1","Нуклеотид і нуклеїнові кислоти",["<b>Нуклеїнові кислоти</b> — високомолекулярні біополімери; мономери — <b>нуклеотиди</b> (від 200 до 200 млн в одній молекулі)","Назва від лат. <i>нуклеус</i> — «ядро»: вперше знайдені в ядрі клітин","<b>Нуклеотид</b> = нітрогенумісна основа + пентоза (5 атомів C) + залишок ортофосфатної кислоти","<b>ДНК</b> — дезоксирибоза (замість ОН — атом Н); <b>РНК</b> — рибоза","Основи ДНК: <b>А, Г, Ц, Т</b> (аденін, гуанін, цитозин, тимін); РНК: <b>А, Г, Ц, У</b> (урацил замість тиміну)"]],
+["§9.2","Ланцюг і структури ДНК",["Нуклеотиди в ланцюзі з’єднані <b>ковалентними фосфодіестерними</b> зв’язками (пентоза одного — фосфат іншого)","<b>Первинна структура</b> — послідовність нуклеотидів","<b>Вторинна й третинна</b> — слабші <b>нековалентні</b> (зокрема водневі) зв’язки","Евкаріоти: ДНК у <b>ядрі, мітохондріях, пластидах</b>; прокаріоти — у ядерній зоні цитоплазми"]],
+["§9.3","Історія відкриття. Правила Чаргаффа",["<b>1869</b> — швейцарець <b>Йоганн Мішер</b>: виділив ДНК з ядер лейкоцитів, встановив хімічний склад","<b>1950</b> — <b>Ервін Чаргафф</b> із колегами: закономірності вмісту основ","<b>Правила Чаргаффа</b>: А = Т, Г = Ц; А + Г = Т + Ц","<b>1953</b> — <b>Джеймс Ватсон і Френсіс Крік</b> запропонували модель ДНК за рентгенівськими даними <b>Розалінд Франклін</b> і <b>Моріса Вілкінса</b>"]],
+["§9.4","Подвійна спіраль і комплементарність",["Два ланцюги нуклеотидів, з’єднані <b>водневими зв’язками</b> між основами","<b>А–Т</b> — 2 водневі зв’язки; <b>Г–Ц</b> — 3. А і Г дещо більші за Т і Ц, тому пари підходять за розмірами й зарядами","<b>Комплементарність</b> (лат. «доповнення») — просторова відповідність, що уможливлює взаємодію та утворення хімічних зв’язків","Вторинна структура — <b>права спіраль</b>, діаметр ≈ <b>2 нм</b>; відстань між парами <b>0,34 нм</b>; крок <b>3,4 нм</b> = 10 пар основ"]],
+["§9.5","Суперспіраль і властивості ДНК",["<b>Третинна структура</b> — суперспіраль (ДНК + ядерні білки; хроматин, хромосоми). ДНК найбільшої хромосоми людини ≈ 10 см вміщується в хромосомі 5 мкм","<b>Денатурація</b>: кислоти, луги, висока температура розривають водневі зв’язки між ланцюгами → втрата активності","<b>Ренатурація</b>: після припинення дії чинників водневі зв’язки відновлюються","<b>Реплікація</b> — самоподвоєння на основі комплементарності; кожна дочірня молекула має <b>один старий і один новий</b> ланцюг"]],
+["§9.6","Функції ДНК, ген, генетичний код",["<b>Функції</b>: кодування, збереження й передавання спадкової інформації дочірнім клітинам","<b>Транскрипція</b> (лат. «переписування») — ланцюг ДНК є матрицею для синтезу <b>РНК</b>; її забезпечує специфічний фермент","<b>Ген</b> — ділянка ДНК (у деяких вірусів — РНК) з інформацією про структуру білка або РНК; цілісна одиниця спадковості","<b>Генетичний код</b> — запис спадкової інформації послідовністю нуклеотидів, що визначає послідовність амінокислот у білках"]]
 ];
-
-const $=id=>document.getElementById(id), M=$('m');
-const LV=['Молекула','Органела','Клітина','Тканина','Орган','Організм'];
-const sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-let S,SND=true,AC;const PR=['Чудово!','Так тримати!','Точно в ціль!','Супер!','Ось це пам’ять!'];
-function beep(f){if(!SND)return;try{AC=AC||new AudioContext();const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;g.gain.value=.08;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.15)}catch(e){}}
-
-function hud(){
-  $('hud').hidden=false;
-  const L=Math.min(5,Math.floor(S.xp/60));
-  $('lvl').textContent='🔬 '+LV[L];
-  $('rnd').textContent=S.boss?'👹 Бос '+'❤️'.repeat(Math.max(S.lives,0)):'Коло '+S.round;
-  $('cmb').textContent='🔥 ×'+S.combo; $('cmb').classList.toggle('hot',S.combo>=3);
-  $('xp').textContent='⭐ '+S.xp;
-  $('bar').style.width=(S.done.size/Q.length*100)+'%';
-  $('cap').textContent='Засвоєно питань: '+S.done.size+' з '+Q.length;
-}
-function start(){
-  S={pool:Q.map((_,i)=>i),round:1,xp:0,combo:0,done:new Set(),first:0,fails:0,asked:new Set(),tp:{},boss:false,bossTried:false,bossWon:false,lives:3};
-  hud(); read(CH.map((_,i)=>i),0,[]);
-}
-function intro(){
-  M.innerHTML=`<div class="card"><p class="big">🧬</p><h1>Вуглеводи та ліпіди</h1>
-  <p>Тренажер до <b>§ 6</b>. Як це працює:</p>
-  <ul class="pts"><li><b>Читай</b> 5 коротких карток із параграфа.</li>
-  <li><b>Тестуйся</b>: питання, «міф чи факт» і сортування; бали, серія 🔥 та бонус ⚡ за швидкість.</li>
-  <li>Усі <b>помилки повертаються</b>: ти перечитуєш лише потрібні картки й проходиш тест знову.</li>
-  <li>Наприкінці чекає <b>фінальний бос</b> 👹: 10 випадкових питань і 3 життя ❤️.</li><li>Гра закінчується, коли <b>всі відповіді правильні</b>.</li></ul>
-  <button class="btn" id="go">Почати</button></div>`;
-  $('go').onclick=start;
-}
-function read(chs,k,wr){
-  const c=CH[chs[k]], rev=wr.filter(q=>Q[q][0]===chs[k]);
-  let h='<div class="card" style="border-top:8px solid '+c.c+'">';
-  h+='<span class="tag">'+(S.round>1?'Повторення':'Читання')+' · '+(k+1)+'/'+chs.length+'</span><h2>'+c.i+' '+c.t+'</h2>';
-  if(rev.length)h+='<div class="rev"><small>Тут ти помилився — зверни увагу:</small>'+rev.map(q=>'<p>❓ '+Q[q][1]+'<br>✅ <b>'+Q[q][2]+'</b></p>').join('')+'</div>';
-  h+='<ul class="pts">'+c.p.map(x=>'<li>'+x+'</li>').join('')+'</ul><div class="mn">💡 '+c.m+'</div>';
-  h+='<div class="dots">'+chs.map((_,i)=>'<span class="'+(i<=k?'on':'')+'"></span>').join('')+'</div>';
-  h+='<button class="btn" id="nx">'+(k<chs.length-1?'Далі':'До тесту')+'</button>';
-  if(k>0)h+=' <button class="btn ghost" id="bk">Назад</button>';
-  M.innerHTML=h+'</div>'; scrollTo(0,0);
-  $('nx').onclick=()=>k<chs.length-1?read(chs,k+1,wr):quiz();
-  if(k>0)$('bk').onclick=()=>read(chs,k-1,wr);
-}
-function quiz(){S.queue=S.boss?sh(Q.map((_,i)=>i)).slice(0,10):sh(S.pool);S.qi=0;S.wrong=[];S.ok=0;S.tp={};ask()}
-function ask(){
-  hud();
-  const id=S.queue[S.qi],q=Q[id];
-  const opts=q[3].length==1?[[q[2],1],[q[3][0],0]].sort((a,b)=>a[0]<b[0]?-1:1):sh([[q[2],1],...q[3].map(x=>[x,0])]);S.t0=Date.now();
-  M.innerHTML='<div class="card"><span class="tag">Питання '+(S.qi+1)+' з '+S.queue.length+'</span><h2 style="margin-top:.6em">'+q[1]+'</h2><div id="o"></div><div id="f"></div></div>';
-  opts.forEach(([t,r])=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=()=>pick(b,r,id);$('o').appendChild(b)});
-  scrollTo(0,0);
-}
-function pop(e){const d=document.createElement('div');d.className='pop';d.innerHTML=e.map(x=>'<span>'+x+'</span>').join('');document.body.appendChild(d);setTimeout(()=>d.remove(),1700)}
-function pick(b,r,id){
-  const q=Q[id],all=[...document.querySelectorAll('.opt')];
-  all.forEach(x=>{x.disabled=true;if(x.textContent===q[2])x.classList.add('ok')});
-  const f=$('f');
-  if(r){
-    const fast=Date.now()-S.t0<8000,pts=10+Math.min(S.combo+1,5)*2+(fast?5:0);S.ok++;S.combo++;S.xp+=pts;S.done.add(id);beep(660);
-    if(!S.asked.has(id))S.first++;
-    f.innerHTML='<div class="fb ok">✅ '+PR[Math.floor(Math.random()*PR.length)]+' +'+pts+(fast?' ⚡':'')+'. '+q[4]+'</div>';
-    if(S.combo>=3)pop(['🔥']);
-  }else{
-    b.classList.add('no');S.combo=0;S.fails++;S.wrong.push(id);S.done.delete(id);beep(180);if(S.boss)S.lives--;
-    f.innerHTML='<div class="fb no">❌ Правильна відповідь: <b>'+q[2]+'</b>. '+q[4]+' Це питання повернеться після повторення.</div>';
-  }
-  const T=S.tp[q[0]]||(S.tp[q[0]]={a:0,c:0});T.a++;if(r)T.c++;S.asked.add(id);hud();
-  const n=document.createElement('button');n.className='btn';n.textContent=S.qi<S.queue.length-1?'Далі':'Підсумок кола';
-  n.onclick=()=>{S.qi++;S.qi<S.queue.length&&!(S.boss&&S.lives<1)?ask():endRound()};f.appendChild(n);n.focus();
-}
-function tops(){return Object.keys(S.tp).map(k=>{const t=S.tp[k],p=Math.round(t.c/t.a*100);return '<div class="tp"><span>'+CH[k].i+' '+CH[k].t+'</span><i><b style="width:'+p+'%"></b></i><span>'+p+'%</span></div>'}).join('')}
-function endRound(){
-  hud();
-  if(!S.wrong.length){if(S.boss)S.bossWon=true;return S.boss||S.bossTried?win():bossIntro()}
-  const chs=[...new Set(S.wrong.map(i=>Q[i][0]))].sort(),was=S.boss;
-  if(was){S.bossTried=true;S.boss=false}
-  M.innerHTML='<div class="card"><p class="big">'+(was?'👹':'📖')+'</p><h2 style="text-align:center">'+(was?'Бос':'Коло '+S.round)+': '+S.ok+' з '+S.qi+' правильно</h2>'+tops()+'<p style="text-align:center">Помилок: <b>'+S.wrong.length+'</b>. Перечитай відповідні картки ('+chs.length+') — і ці питання повернуться разом із кількома для освіження.</p><div style="text-align:center"><button class="btn" id="rr">Перечитати</button></div></div>';
-  $('rr').onclick=()=>{const ex=sh([...S.done]).slice(0,3);S.pool=[...S.wrong,...ex];S.round++;hud();read(chs,0,S.wrong)};
-}
-function bossIntro(){
-  M.innerHTML='<div class="card"><p class="big">👹</p><h1 style="text-align:center">Фінальний бос</h1><p style="text-align:center">Усе засвоєно! Тепер перевірка пам’яті: <b>10 випадкових питань</b> з усього параграфа й <b>3 життя</b> ❤️❤️❤️. Якщо будуть помилки, вони повернуться на повторення.</p><div style="text-align:center"><button class="btn" id="bs">Битися!</button> <button class="btn ghost" id="sk">Пропустити</button></div></div>';
-  $('bs').onclick=()=>{S.boss=true;S.lives=3;quiz()};$('sk').onclick=win;
-}
-function win(){
-  pop(['🎉','🧬','⭐','🎉','🍬','🧈']);beep(880);
-  M.innerHTML='<div class="card"><p class="big">'+(S.bossWon?'👑':'🏆')+'</p><h1 style="text-align:center">'+(S.bossWon?'Боса переможено!':'Усі відповіді правильні!')+'</h1><div class="stats"><div><em>'+S.xp+'</em>балів</div><div><em>'+S.round+'</em>кіл</div><div><em>'+S.first+'/'+Q.length+'</em>з першої спроби</div><div><em>'+S.fails+'</em>помилок виправлено</div></div><p style="text-align:center;color:var(--mut)">Щоб закріпити, пройди ще раз через день — так знання тримаються довше.</p><div style="text-align:center"><button class="btn" id="ag">Грати знову</button></div></div>';
-  $('ag').onclick=start;
-}
-$('snd').onclick=e=>{SND=!SND;e.target.textContent=SND?'🔊':'🔇'};
-intro();
-</script>
-</body>
-</html>
+// [розділ, питання, ПРАВИЛЬНА, хибна, хибна, хибна]
+const Q=[
+[0,"Мономерами нуклеїнових кислот є …","Нуклеотиди","Амінокислоти","Моносахариди","Жирні кислоти"],
+[0,"Від чого походить назва «нуклеїнові кислоти»?","Від лат. нуклеус — ядро","Від слова «нуклеотид»","Від прізвища відкривача","Від слова «нуклон»"],
+[0,"З яких компонентів складається нуклеотид?","Основа, пентоза, залишок ортофосфатної кислоти","Амінокислота, гліцерол, фосфат","Основа, гексоза, залишок сульфатної кислоти","Дві основи та пентоза"],
+[0,"Яка пентоза входить до складу ДНК?","Дезоксирибоза","Рибоза","Глюкоза","Фруктоза"],
+[0,"Яка основа є в РНК, але відсутня в ДНК?","Урацил","Тимін","Цитозин","Аденін"],
+[0,"Скільки нуклеотидів може бути в одній молекулі нуклеїнової кислоти?","Від 200 до 200 млн","Від 2 до 20","Від 20 до 200","Рівно 1000"],
+[1,"Як називаються зв’язки між нуклеотидами в одному ланцюзі?","Фосфодіестерні (ковалентні)","Водневі","Йонні","Пептидні"],
+[1,"Що визначає первинну структуру нуклеїнової кислоти?","Послідовність нуклеотидів","Кількість водневих зв’язків","Діаметр спіралі","Розмір хромосоми"],
+[1,"Вторинна й третинна структури нуклеїнових кислот підтримуються …","Нековалентними (зокрема водневими) зв’язками","Лише ковалентними зв’язками","Лише пептидними зв’язками","Йонними зв’язками між білками"],
+[1,"Де міститься ДНК у клітинах прокаріотів?","У ядерній зоні цитоплазми","У ядрі","У мітохондріях","У пластидах"],
+[2,"Хто 1869 року виділив ДНК з ядер лейкоцитів?","Йоганн Мішер","Ервін Чаргафф","Джеймс Ватсон","Френсіс Крік"],
+[2,"Яке з правил Чаргаффа правильне?","А = Т і Г = Ц","А = Г і Т = Ц","А + Т = Г + Ц","А = Ц і Г = Т"],
+[2,"У ДНК 18 % тиміну. Скільки в ній цитозину?","32 %","18 %","64 %","82 %"],
+[2,"У ДНК 20 % гуаніну. Скільки аденіну?","30 %","20 %","40 %","60 %"],
+[2,"Хто запропонував модель просторової структури ДНК (1953)?","Ватсон і Крік","Мішер і Чаргафф","Франклін і Вілкінс","Чаргафф і Крік"],
+[3,"Скільки водневих зв’язків між аденіном і тиміном?","Два","Один","Три","Чотири"],
+[3,"Скільки водневих зв’язків між гуаніном і цитозином?","Три","Два","Один","П’ять"],
+[3,"Комплементарність — це …","Просторова відповідність, що уможливлює хімічні зв’язки","Здатність ДНК до самоподвоєння","Розрив водневих зв’язків","Синтез РНК на ДНК"],
+[3,"Яка спіраль у молекули ДНК?","Права, діаметром ≈ 2 нм","Ліва, діаметром 11 нм","Права, діаметром 30 нм","Ліва, діаметром 2 нм"],
+[3,"Скільки пар основ в одному кроці спіралі ДНК?","10","5","20","34"],
+[3,"Чому А і Г утворюють пари саме з Т і Ц?","Розміри й заряди взаємно доповнюються","Усі вони однакового розміру","Їх з’єднують фосфодіестерні зв’язки","Т і Ц — пентози"],
+[4,"Що відбувається під час денатурації ДНК?","Розриваються водневі зв’язки між ланцюгами","Руйнуються фосфодіестерні зв’язки","ДНК подвоюється","Синтезується РНК"],
+[4,"Що таке ренатурація ДНК?","Відновлення структури після припинення дії чинників","Розпад на нуклеотиди","Подвоєння молекули","Синтез білка"],
+[4,"Як називається самоподвоєння ДНК?","Реплікація","Транскрипція","Денатурація","Ренатурація"],
+[4,"Що містять дві дочірні молекули ДНК після реплікації?","По одному старому й одному новому ланцюгу","Лише нові ланцюги","Лише старі ланцюги","Два нові й два старі в одній молекулі"],
+[4,"Чому ДНК хромосоми (≈ 10 см) вміщується в 5 мкм?","Утворює суперспіраль із ядерними білками","Складається з кількох молекул","Розривається на шматочки","Стискається без білків"],
+[5,"Яка основна функція ДНК?","Кодування, збереження й передавання спадкової інформації","Енергетична","Транспорт речовин","Каталітична"],
+[5,"Транскрипція — це …","Синтез РНК на матриці ланцюга ДНК","Подвоєння ДНК","Розрив водневих зв’язків","Синтез ДНК на РНК"],
+[5,"Ген — це …","Ділянка ДНК з інформацією про білок або РНК","Уся молекула ДНК","Окрема основа","Молекула білка"],
+[5,"Генетичний код визначає …","Послідовність амінокислот у білках","Послідовність моносахаридів у крохмалі","Розмір хромосоми","Кількість водневих зв’язків"],
+[3,"Міф чи факт? У ДНК аденін з’єднується з цитозином.","Міф","Факт"],
+[0,"Міф чи факт? До складу РНК входить дезоксирибоза.","Міф","Факт"],
+[2,"Міф чи факт? Правила Чаргаффа описують вміст основ у ДНК.","Факт","Міф"],
+[4,"Міф чи факт? Денатурація руйнує фосфодіестерні зв’язки.","Міф","Факт"],
+[5,"Міф чи факт? Ланцюг ДНК слугує матрицею для синтезу РНК.","Факт","Міф"],
+[1,"Міф чи факт? У евкаріотів ДНК є лише в ядрі.","Міф","Факт"]
+];
+const M=["Нуклеотид = основа + пентоза + фосфат. ДНК — Тимін, РНК — Урацил.","Ланцюг — міцні ковалентні зв’язки; спіраль — слабкі водневі.","1869 Мішер → 1950 Чаргафф → 1953 Ватсон і Крік.","А=Т (два зв’язки), Г≡Ц (три зв’язки): пари завжди доповнюють одна одну.","Денатурація розплітає, ренатурація сплітає, реплікація копіює.","ДНК → (транскрипція) → РНК; ген кодує білок або РНК."];
+const C=[
+[0,"Мономери нуклеїнових кислот","Нуклеотиди (200 – 200 млн в молекулі)"],
+[0,"Від чого назва «нуклеїнові»?","Від лат. нуклеус — ядро: вперше знайдені в ядрі"],
+[0,"Складові нуклеотиду","Нітрогенумісна основа + пентоза + залишок ортофосфатної кислоти"],
+[0,"Пентоза в ДНК / в РНК","Дезоксирибоза / рибоза"],
+[0,"Чим дезоксирибоза відрізняється від рибози?","Замість групи ОН — атом Н"],
+[0,"Основи ДНК","А, Г, Ц, Т (аденін, гуанін, цитозин, тимін)"],
+[0,"Основи РНК","А, Г, Ц, У (урацил замість тиміну)"],
+[1,"Зв’язок між нуклеотидами в ланцюзі","Ковалентний фосфодіестерний (пентоза одного — фосфат іншого)"],
+[1,"Первинна структура ДНК","Послідовність нуклеотидів у ланцюзі"],
+[1,"Вторинна й третинна структури тримаються на …","Нековалентних, зокрема водневих, зв’язках"],
+[1,"Де ДНК у евкаріотів?","Ядро, мітохондрії, пластиди"],
+[1,"Де ДНК у прокаріотів?","Ядерна зона цитоплазми"],
+[2,"1869","Йоганн Мішер виділив ДНК з ядер лейкоцитів"],
+[2,"1950","Чаргафф із колегами виявив закономірності вмісту основ"],
+[2,"1953","Ватсон і Крік — модель просторової структури ДНК"],
+[2,"Чия рентгеноструктурна робота була основою моделі?","Розалінд Франклін і Моріса Вілкінса"],
+[2,"Перше правило Чаргаффа","А = Т, Г = Ц"],
+[2,"Друге правило Чаргаффа","А + Г = Т + Ц"],
+[2,"У ДНК 30 % А. Скільки Г?","А = Т = 30 %, Г = Ц = 20 %"],
+[3,"Із скількох ланцюгів складається ДНК?","З двох, з’єднаних водневими зв’язками"],
+[3,"А–Т: скільки водневих зв’язків?","Два"],
+[3,"Г–Ц: скільки водневих зв’язків?","Три"],
+[3,"Чому саме А–Т і Г–Ц?","А і Г більші за Т і Ц; розміри й заряди доповнюють одні одних"],
+[3,"Комплементарність","Просторова відповідність, що уможливлює взаємодію та хімічні зв’язки (лат. «доповнення»)"],
+[3,"Вторинна структура ДНК","Права спіраль діаметром ≈ 2 нм"],
+[3,"Відстань між сусідніми парами основ","0,34 нм"],
+[3,"Крок спіралі","3,4 нм = 10 пар основ"],
+[4,"Третинна структура ДНК","Суперспіраль (ДНК + ядерні білки; хроматин, хромосоми)"],
+[4,"Приклад ущільнення ДНК","ДНК найбільшої хромосоми людини ≈ 10 см вміщується в хромосомі 5 мкм"],
+[4,"Денатурація ДНК","Розрив водневих зв’язків між ланцюгами (кислоти, луги, висока t) → втрата активності"],
+[4,"Ренатурація ДНК","Відновлення водневих зв’язків після припинення дії чинників"],
+[4,"Реплікація","Самоподвоєння ДНК за принципом комплементарності (лат. «повторення»)"],
+[4,"Що містить дочірня молекула ДНК?","Один старий (материнський) і один новий ланцюг"],
+[4,"Яку роль у реплікації виконує материнський ланцюг?","Матриця для синтезу нового ланцюга"],
+[5,"Функції ДНК","Кодування, збереження й передавання спадкової інформації"],
+[5,"Транскрипція","Синтез РНК на матриці ланцюга ДНК (лат. «переписування»); забезпечує фермент"],
+[5,"Ген","Ділянка ДНК (у деяких вірусів — РНК) з інформацією про білок або РНК; одиниця спадковості"],
+[5,"Генетичний код","Запис інформації послідовністю нуклеотидів, що визначає послідовність амінокислот у білках"]
+];
+const E=["🧬","🔗","🔬","🧵","🧶","📜"];
+const LV=[[0,"Нуклеотид 🧫"],[200,"Ланцюг 🔗"],[600,"Спіраль 🧬"],[1200,"Суперспіраль 🧶"],[2000,"Хромосома 🔬"],[3000,"Геном 👑"]];
+const CH=["Так! 🔥","Красава! 💪","Як справжній біолог!","Бездоганно ✨","Мозок працює 🧠","Легко!"],OOPS=["Ой, буває 🙈","Майже! Запам’ятай ↓","Ще раз — і буде 💪","Не біда, це вчиться ↓"];
+const rnd=a=>a[Math.random()*a.length|0];
+const lvl=()=>{const x=(st&&st.xp)||0;let l=0;LV.forEach((v,i)=>{if(x>=v[0])l=i});return l};
+function pop(t){try{const d=document.createElement("div");d.className="pop";d.textContent=t;d.style.left=(35+Math.random()*30)+"%";d.style.top=(30+Math.random()*12)+"%";document.body.appendChild(d);setTimeout(()=>d.remove(),900)}catch(e){}}
+function confetti(n){for(let i=0;i<(n||24);i++){try{const d=document.createElement("span");d.className="cf";d.textContent=rnd(["🎉","✨","⭐","🧬","🏆","🎊"]);d.style.left=Math.random()*100+"vw";d.style.animationDuration=(1.2+Math.random()*1.5)+"s";d.style.fontSize=(16+Math.random()*18)+"px";document.body.appendChild(d);setTimeout(()=>d.remove(),3000)}catch(e){}}}
+let AC=null;
+function snd(f,t){if(st&&st.mute)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;g.gain.value=.07;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+(t||.12))}catch(e){}}
+const sndOk=()=>{snd(660);setTimeout(()=>snd(880),90);try{navigator.vibrate(20)}catch(e){}},sndNo=()=>{snd(220,.25);try{navigator.vibrate([40,30,40])}catch(e){}};
+function gain(n){const t=iso(new Date());if(st.last!=t){const y=new Date();y.setDate(y.getDate()-1);st.days=st.last==iso(y)?(st.days||0)+1:1;st.last=t}
+ const b=lvl();st.xp=(st.xp||0)+n;pop("+"+n+" XP");if(lvl()>b){confetti(45);setTimeout(()=>pop("Новий ранг: "+LV[lvl()][1]),600)}}
+function mute(){if(!st)st={ph:"start",read:[],rv:{}};st.mute=!st.mute;save();draw()}
+const K="bio9_dnk_v1",$=document.getElementById("app"),N=S.length;
+let st=null,cur=null;
+try{st=JSON.parse(localStorage.getItem(K))}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(st))}catch(e){}};
+const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const all=()=>Q.map((_,i)=>i),ALLC=()=>C.map((_,i)=>i),cc=s=>ALLC().filter(i=>C[i][0]==s);
+const iso=d=>d.toISOString().slice(0,10),IV=[0,1,3,7,14];
+const due=()=>st&&st.rv?Object.keys(st.rv).filter(i=>st.rv[i].d<=iso(new Date())).map(Number):[];
+function grade(i,ok){const r=st.rv[i]||{b:0};r.b=ok?Math.min(r.b+1,4):0;const d=new Date();d.setDate(d.getDate()+IV[r.b]);r.d=iso(d);st.rv[i]=r}
+function fresh(){st={ph:"learn",sq:[...Array(N).keys()],si:0,cq:[],n:1,rm:"",sm:[],miss:[],pend:all(),qi:0,wrong:[],unk:all(),seen:[],read:[],round:0,rv:(st&&st.rv)||{},xp:(st&&st.xp)||0,days:(st&&st.days)||0,last:st&&st.last,mute:st&&st.mute,cb:0,hit:0};save();draw()}
+function hdr(label,p){
+ const dots=S.map((_,i)=>{let c="";if(st.read.includes(i)){c="r";const ids=Q.map((x,n)=>x[0]==i?n:-1).filter(n=>n>=0);
+  if(ids.some(n=>st.unk.includes(n)&&st.seen.includes(n)))c="w";else if(ids.every(n=>st.seen.includes(n)))c="g"}return `<b class="${c}" title="${S[i][0]}"></b>`}).join("");
+ return `<div class="top"><div class="bar"><i style="width:${Math.max(0,Math.min(100,p))}%"></i></div><div class="meta"><span>${label}</span><a onclick="menu()" style="color:var(--a);cursor:pointer">☰ меню</a></div><div class="meta"><span>⭐ ${st.xp||0} · ${LV[lvl()][1]}</span><span>${st.cb>1?"🔥 x"+st.cb+" · ":""}📅 ${st.days||0} дн.</span></div><div class="dots">${dots}</div></div>`}
+const LB={sec:"Згадай",mix:"Мікс-повторення",final:"Слабкі картки",daily:"Повторення на сьогодні",only:"Усі картки"};
+function draw(){
+ if(!st||st.ph=="start"){const d=due().length,p=st&&st.prev;
+  $.innerHTML=`<div class="card c"><div class="big">🧬</div><h1>Біологія 9 кл. · §9 · ДНК</h1><p><span class="rank">${LV[lvl()][1]}</span><span class="rank">⭐ ${(st&&st.xp)||0} XP</span><span class="rank">🔥 ${(st&&st.days)||0} дн. підряд</span></p><p class="sm">Збирай XP, тримай серію 🔥, перемагай боса в тесті й дорости до <b>Генома 👑</b></p><p style="text-align:left">1) Читаєш ОДНУ тему (💡 + факти)<br>2) Одразу <b>згадуєш</b> її на картках: не знаєш — картка повертається<br>3) Після кожних 3 тем — мікс-повторення<br>4) Слабкі картки → тест → помилки по колу<br>5) Завтра й далі: «Повторення на сьогодні» — картки приходять самі, коли їх час</p>
+  ${p?`<button class="btn" onclick="st.ph=st.prev;draw()">Продовжити</button>`:""}<button class="btn ${p?"s":""}" onclick="fresh()">${p?"Почати спочатку":"Почати"}</button>${d?`<button class="btn" onclick="daily()">Повторення на сьогодні (${d})</button>`:""}<button class="btn s" onclick="cardsOnly()">Усі картки підряд</button><button class="btn s" onclick="mute()">${st&&st.mute?"🔇 Звук вимкнено":"🔊 Звук увімкнено"}</button></div>`;if(!st)st={ph:"start",read:[],rv:{}};return}
+ if(st.ph=="learn"){const i=st.sq[st.si],s=S[i];
+  $.innerHTML=hdr(`${st.round?"Перечитування":"Читаємо"} · тема ${st.si+1} з ${st.sq.length}`,st.si/st.sq.length*100)+`<div class="card"><div class="tag">${E[i]} ${s[0]}</div><h2>${s[1]}</h2><div class="fb">💡 <b>Головне:</b> ${M[i]}</div><br><ul>${s[2].map(x=>`<li>${x}</li>`).join("")}</ul></div><p class="sm c">Прочитай один раз уважно. Далі — картки: ти згадуватимеш сам.</p><button class="btn" onclick="readDone()">Прочитав → перевіряю себе</button>`;scrollTo(0,0);return}
+ if(st.ph=="recall"){if(!st.cq.length){recallEnd();return}const c=C[st.cq[0]];
+  $.innerHTML=hdr(`${LB[st.rm]}: лишилось ${st.cq.length}`,(1-st.cq.length/st.n)*100)+`<div class="card c"><div class="tag">${E[c[0]]} ${S[c[0]][0]}</div><p class="sm">Скажи відповідь вголос чи подумки — і тоді відкривай</p><h2>${c[1]}</h2><div id="bk" class="fb" style="display:none"><b>${c[2]}</b></div></div><div id="bt"><button class="btn" onclick="flip()">Показати відповідь</button></div>`;scrollTo(0,0);return}
+ if(st.ph=="quiz"){const n=st.pend[st.qi],q=Q[n];cur={n,o:sh(q.slice(2)),done:false};
+  const hp=Math.round((1-(st.hit||0)/st.pend.length)*100);
+  $.innerHTML=hdr(`Тест: ${st.qi+1} з ${st.pend.length}${st.round?" (повтор помилок)":""}`,st.qi/st.pend.length*100)+`<div class="sm">👹 Бос-файт: Незнання — ${hp}% здоров’я</div><div class="bar boss"><i style="width:${hp}%"></i></div><div class="card"><div class="tag">${E[q[0]]} ${S[q[0]][0]}</div><h2>${q[1]}</h2><div id="o">${cur.o.map((t,k)=>`<button class="opt" onclick="ans(${k})">${t}</button>`).join("")}</div><div id="fb"></div></div>`;scrollTo(0,0);return}
+ if(st.ph=="res"){const w=[...new Set(st.wrong.map(n=>Q[n][0]))];
+  $.innerHTML=hdr("Результат раунду",100)+`<div class="card c"><div class="big">🔁</div><h2>Помилок: ${st.wrong.length} з ${st.pend.length}</h2><p>Треба довчити:</p><p>${w.map(i=>`<b>${S[i][0]}</b> ${S[i][1]}`).join("<br>")}</p></div><button class="btn" onclick="relearn()">Перечитати й згадати ці теми</button>`;return}
+ if(st.ph=="done"){$.innerHTML=hdr("Готово!",100)+`<div class="card c"><div class="big">🏆</div><h1>Усе засвоєно!</h1><p>Усі ${Q.length} питань правильно. Раундів повторення: ${st.round}.</p><p class="sm">Щоб воно не вивітрилось — завтра і післязавтра відкрий «Повторення на сьогодні» (5 хвилин).</p></div><button class="btn" onclick="menu()">☰ До меню</button><button class="btn s" onclick="fresh()">Пройти все з нуля</button>`}}
+function flip(){document.getElementById("bk").style.display="block";document.getElementById("bt").innerHTML='<button class="btn" onclick="kn(1)">Знав ✓</button><button class="btn s" onclick="kn(0)">Не знав — ще раз ↻</button>'}
+function kn(y){const i=st.cq.shift();
+ if(y){st.cb=(st.cb||0)+1;gain(8+Math.min(st.cb,5)*2);sndOk();if(!st.sm.includes(i))grade(i,true);st.miss=st.miss.filter(x=>x!=i)}
+ else{st.cb=0;sndNo();if(!st.sm.includes(i)){st.sm.push(i);grade(i,false)}if(!st.miss.includes(i))st.miss.push(i);st.cq.splice(Math.min(3,st.cq.length),0,i)}
+ save();draw()}
+function rc(l,m){st.cq=sh(l);st.n=l.length||1;st.rm=m;st.sm=[];st.ph="recall";save();draw()}
+function recallEnd(){const m=st.rm;
+ if(m=="sec"){gain(30);confetti(18);setTimeout(()=>pop("Тема засвоєна 🎉"),500);const k=st.si+1;if(!st.round&&k%3==0)return rc(st.sq.slice(k-3,k).flatMap(cc),"mix");return adv()}
+ if(m=="mix"){gain(40);return adv()}
+ if(m=="final"){gain(60);return toQuiz()}
+ st.ph="start";save();draw()}
+function adv(){st.si++;if(st.si>=st.sq.length){if(!st.round&&st.miss.length)return rc(st.miss.slice(),"final");return toQuiz()}st.ph="learn";save();draw()}
+function toQuiz(){st.hit=0;st.ph="quiz";st.qi=0;st.wrong=[];st.pend=sh(st.pend);save();draw()}
+function readDone(){const i=st.sq[st.si];if(!st.read.includes(i))st.read.push(i);rc(cc(i),"sec")}
+function daily(){const l=due();if(!l.length)return;if(st.prev=="recall")st.prev="learn";rc(l,"daily")}
+function cardsOnly(){if(!st||!st.pend){fresh();st.prev="learn"}if(st.prev=="recall")st.prev="learn";rc(ALLC(),"only")}
+function menu(){st.prev=st.ph;st.ph="start";save();draw()}
+function ans(k){if(cur.done)return;cur.done=true;const q=Q[cur.n],ok=cur.o[k]==q[2];
+ [...document.querySelectorAll(".opt")].forEach((b,j)=>{if(cur.o[j]==q[2])b.classList.add("ok");else if(j==k)b.classList.add("no");b.style.pointerEvents="none"});
+ if(!st.seen.includes(cur.n))st.seen.push(cur.n);
+ if(ok){st.unk=st.unk.filter(x=>x!=cur.n);st.hit=(st.hit||0)+1;st.cb=(st.cb||0)+1;gain(10+Math.min(st.cb,5)*3);sndOk()}else{st.wrong.push(cur.n);st.cb=0;sndNo();const cd=document.querySelector(".card");if(cd)cd.classList.add("shake")}
+ document.getElementById("fb").innerHTML=`<div class="fb">${ok?"✅ "+rnd(CH)+(st.cb>2?" Серія x"+st.cb+"!":""):`❌ ${rnd(OOPS)}<br>Правильна відповідь: <b>${q[2]}</b><br><span class="sm">Повтори: ${S[q[0]][0]} ${S[q[0]][1]}</span>`}</div><button class="btn" onclick="next()">Далі →</button>`;save()}
+function next(){st.qi++;if(st.qi>=st.pend.length){st.ph=st.wrong.length?"res":"done";if(!st.wrong.length){gain(100);confetti(80)}}save();draw()}
+function relearn(){st.sq=[...new Set(st.wrong.map(n=>Q[n][0]))].sort((a,b)=>a-b);st.si=0;st.pend=st.wrong.slice();st.wrong=[];st.round++;st.hit=0;st.ph="learn";save();draw()}
+if(st&&!st.ph)st=null;draw();
+</script></body></html>
